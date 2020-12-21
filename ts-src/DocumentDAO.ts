@@ -11,7 +11,7 @@ class DocumentDAO {
 
   async init(): Promise<any> {
     return new Promise((resolve) => {
-      MongoClient.connect(`mongodb://${process.env.DOCUMENTDB_HOST}`, (err, client) => {
+      MongoClient.connect(`mongodb://${process.env.DOCUMENTDB_USERNAME}:${process.env.DOCUMENTDB_PWD}@${process.env.DOCUMENTDB_HOST}`, (err, client) => {
         if (err !== null) throw err;
         this.client = client;
         this.db = client.db(process.env.DOCUMENTDB_NAME);
