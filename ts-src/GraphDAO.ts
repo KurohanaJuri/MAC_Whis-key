@@ -9,10 +9,10 @@ import {
   Requested,
   Comment,
   likedValues
-} from './Model';
+} from './Model_old';
 
 class GraphDAO {
-  
+
   private driver: Driver;
 
   constructor() {

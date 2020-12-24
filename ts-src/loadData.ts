@@ -6,7 +6,7 @@ import { join } from 'path';
 
 import DocumentDAO from "./DocumentDAO";
 import GraphDAO from "./GraphDAO";
-import { Movie, User } from "./Model";
+import { Movie, User } from "./Model_old";
 
 dotenv.config();
 
@@ -117,7 +117,7 @@ const documentDAO = new DocumentDAO();
   const addedPromise = [400, 87, 0, 34, 58].flatMap((quantity, index) => {
     return shuffle(movies).slice(0, quantity).map((movie: Movie) => {
       return graphDAO.upsertAdded(users[index].id, movie._id, {
-        at: new Date(160613000 * 1000 + (Math.floor(Math.random() * 3124) * 1000)) 
+        at: new Date(160613000 * 1000 + (Math.floor(Math.random() * 3124) * 1000))
       });
     });
   });
@@ -129,7 +129,7 @@ const documentDAO = new DocumentDAO();
     return shuffle(movies).slice(0, quantity).map((movie: Movie) => {
       return graphDAO.upsertMovieLiked(users[index], movie._id, {
         rank: Math.floor(Math.random() * 5) + 1 as 1 | 2 | 3 | 4 | 5,
-        at: new Date(160613000 * 1000 + (Math.floor(Math.random() * 3124) * 1000)) 
+        at: new Date(160613000 * 1000 + (Math.floor(Math.random() * 3124) * 1000))
       });
     });
   });

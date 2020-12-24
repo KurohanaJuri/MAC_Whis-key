@@ -1,5 +1,5 @@
 import { Collection, Db, MongoClient } from "mongodb";
-import { Movie } from "./Model";
+import { Movie } from "./Model_old";
 
 class DocumentDAO {
 
