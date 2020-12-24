@@ -125,10 +125,15 @@ for k, v in dfDictFin.items():               # k: name of index, v: is a df
 
 outputDf = pd.concat([outputDf, df["%"], df["REGION"], df["DISTRICT"]], axis=1)
 outputDf = outputDf.rename(
-    columns={"%": "Pourcent", "REGION": "Region", "DISTRICT": "District"})
+    columns={"%": "Percent", "REGION": "Region", "DISTRICT": "District"})
 
 
 print(outputDf.head())
 
-outputDf.to_csv("cleanDataSet.csv", sep=";",
-                index_label="id", quoting=csv.QUOTE_NONE)
+output = outputDf.to_csv(quoting=csv.QUOTE_NONE, sep=";",
+                         index=False, escapechar=None)
+output = output.replace(";", ",")
+
+file = open("cleanDataSet.csv", "w")
+file.write(output)
+file.close()
