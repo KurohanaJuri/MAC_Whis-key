@@ -7,7 +7,7 @@ import { InlineKeyboardMarkup, InlineQueryResultArticle } from 'telegraf/typings
 
 import DocumentDAO from './DocumentDAO';
 import GraphDAO from './GraphDAO';
-import { Liked, likedValues } from './Model_old';
+import { Liked, likedValues } from './Model';
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const graphDAO = new GraphDAO();

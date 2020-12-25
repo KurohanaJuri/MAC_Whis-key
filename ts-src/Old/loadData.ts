@@ -6,7 +6,7 @@ import { join } from 'path';
 
 import DocumentDAO from "./DocumentDAO";
 import GraphDAO from "./GraphDAO";
-import { Movie, User } from "./Model_old";
+import { Movie, User } from "./Model";
 
 dotenv.config();
 

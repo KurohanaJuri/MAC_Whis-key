@@ -9,7 +9,7 @@ import {
   Requested,
   Comment,
   likedValues
-} from './Model_old';
+} from './Model';
 
 class GraphDAO {
 
