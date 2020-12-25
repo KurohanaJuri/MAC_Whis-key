@@ -1,24 +1,35 @@
 export type Whiskey = {
     _id: string;
+    name:string;
+    color: string;
+    noses:string;
+    bodies:string;
+    palates:string;
+    finishes:string;
     percent: number;
     region: string;
     district: string;
 }
 
+export type Color = {
+    id: number;
+    name: string;
+}
+
 export type Nose = {
-    _id: string;
+    id: number;
     name: string;
 }
 export type Body = {
-    _id: string;
+    id: number;
     name: string;
 }
 export type Palate = {
-    _id: string;
+    id: number;
     name: string;
 }
 export type Finish = {
-    _id: string;
+    id: number;
     name: string;
 }
 
