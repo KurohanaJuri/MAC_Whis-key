@@ -1,6 +1,6 @@
 import neo4j, {Driver, types, int} from 'neo4j-driver';
 import {Actor, User} from "./Old/Model";
-import {Body, Color, Finish, Liked, Nose, Palate} from "./Model";
+import {Body, Color, Finish, Liked, Nose, Palate, Whiskey} from "./Model";
 
 
 class GraphDAO {
@@ -20,7 +20,7 @@ class GraphDAO {
         await this.driver.close();
     }
 
-    async upsertWhiskeyLiked(user: User, whiskeyId : string, liked: Liked){
+    async upsertWhiskeyLiked(user: User, whiskeyId: string, liked: Liked) {
         await this.run(`
         MATCH (w:Whiskey {id: $whiskeyId})
             MERGE (u:User {id: $userId})
@@ -39,7 +39,7 @@ class GraphDAO {
                             l.at = $likedAt
               ON MATCH SET  l.rank = $likedRank,
                             l.at = $likedAt
-        `,{
+        `, {
             whiskeyId,
             isBot: user.is_bot,
             firstName: user.first_name,
@@ -66,6 +66,16 @@ class GraphDAO {
                 }
             }
         });
+    }
+
+    async getWhiskiesLikedByUser(userId: number) {
+        return await this.run(`
+           match (:User{id: $userId})-[l:LIKED]-(w:Whiskey) return w
+        `, {
+            userId
+        }).then((res) =>
+            res.records
+        )
     }
 
     async upsertWhiskey(whiskeyId: string, whiskeyName: string) {
