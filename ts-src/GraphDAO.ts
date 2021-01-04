@@ -1,6 +1,5 @@
 import neo4j, {Driver, types, int} from 'neo4j-driver';
-import {Actor, User} from "./Old/Model";
-import {Body, Color, Finish, Liked, Nose, Palate, Whiskey} from "./Model";
+import {Body, Color, Finish, Liked, Nose, Palate, User, Whiskey} from "./Model";
 
 
 class GraphDAO {
@@ -91,7 +90,7 @@ class GraphDAO {
       MATCH (w:Whiskey{ id: $whiskeyId })
       MERGE (c:Color{id: $colorId})
         ON CREATE SET c.name = $colorName
-      MERGE (w)-[r:IS]->(c)
+      MERGE (w)-[r:IS_COLORED]->(c)
     `, {
             whiskeyId,
             colorId: color.id,
@@ -117,7 +116,7 @@ class GraphDAO {
       MATCH (w:Whiskey{ id: $whiskeyId })
       MERGE (b:Body{id: $bodyId})
         ON CREATE SET b.name = $bodyName
-      MERGE (w)-[r:IS]->(b)
+      MERGE (w)-[r:HAS_AS_BODY]->(b)
     `, {
             whiskeyId,
             bodyId: body.id,
