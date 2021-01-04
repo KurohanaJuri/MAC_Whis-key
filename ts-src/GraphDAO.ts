@@ -1,6 +1,6 @@
 import neo4j, {Driver, types, int} from 'neo4j-driver';
 import {Actor, User} from "./Old/Model";
-import {Body, Color, Finish, Nose, Palate} from "./Model";
+import {Body, Color, Finish, Liked, Nose, Palate} from "./Model";
 
 
 class GraphDAO {
@@ -18,6 +18,54 @@ class GraphDAO {
 
     async close() {
         await this.driver.close();
+    }
+
+    async upsertWhiskeyLiked(user: User, whiskeyId : string, liked: Liked){
+        await this.run(`
+        MATCH (w:Whiskey {id: $whiskeyId})
+            MERGE (u:User {id: $userId})
+              ON CREATE SET u.isBot = $isBot,
+                            u.firstName = $firstName,
+                            u.lastName = $lastName,
+                            u.username = $username,
+                            u.languageCode = $languageCode
+              ON MATCH SET  u.isBot = $isBot,
+                            u.firstName = $firstName,
+                            u.lastName = $lastName,
+                            u.username = $username,
+                            u.languageCode = $languageCode
+            MERGE (u)-[l:LIKED]->(w)
+              ON CREATE SET l.rank = $likedRank,
+                            l.at = $likedAt
+              ON MATCH SET  l.rank = $likedRank,
+                            l.at = $likedAt
+        `,{
+            whiskeyId,
+            isBot: user.is_bot,
+            firstName: user.first_name,
+            lastName: user.last_name,
+            languageCode: user.language_code,
+            username: user.username,
+            userId: this.toInt(user.id),
+            likedRank: liked.rank,
+            likedAt: this.toDate(liked.at),
+        })
+    }
+
+    async getWhiskeyLiked(userId: number, whiskeyId: string): Promise<Liked | null> {
+        return await this.run('MATCH (:User{id: $userId})-[l:LIKED]-(:Whiskey{id: $whiskeyId}) RETURN l', {
+            userId,
+            whiskeyId,
+        }).then((res) => {
+            if (res.records.length === 0) return null;
+            else {
+                const record = res.records[0].get('l');
+                return {
+                    rank: record.properties.rank,
+                    at: record.properties.at,
+                }
+            }
+        });
     }
 
     async upsertWhiskey(whiskeyId: string, whiskeyName: string) {
@@ -120,6 +168,9 @@ class GraphDAO {
         return int(value);
     }
 
+    private toDate(value: Date) {
+        return types.DateTime.fromStandardDate(value);
+    }
 
     private async run(query: string, params: any) {
         const session = this.driver.session();

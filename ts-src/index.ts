@@ -20,12 +20,12 @@ function stripMargin(template: TemplateStringsArray, ...expressions: any[]) {
   return result.replace(/(\n|\r|\r\n)\s*\|/g, '$1');
 }
 
-function buildLikeKeyboard(movieId: string, currentLike?: Liked): InlineKeyboardMarkup {
+function buildLikeKeyboard(whiskeyId: string, currentLike?: Liked): InlineKeyboardMarkup {
   return {
     inline_keyboard: [
       likedValues.map((v) => ({
         text: currentLike && currentLike.rank === v ? "★".repeat(v) : "☆".repeat(v),
-        callback_data: v + '__' + movieId, // payload that will be retrieved when button is pressed
+        callback_data: v + '__' + whiskeyId, // payload that will be retrieved when button is pressed
       })),
     ],
   }
@@ -57,6 +57,37 @@ bot.on('inline_query', async (ctx) => {
       },
     }));
     ctx.answerInlineQuery(answer);
+  }
+});
+
+// User chose a whiskey from the list displayed in the inline query
+// Used to update the keyboard and show filled stars if user already liked it
+bot.on('chosen_inline_result', async (ctx) => {
+  if (ctx.from && ctx.chosenInlineResult) {
+    const liked = await graphDAO.getWhiskeyLiked(ctx.from.id, ctx.chosenInlineResult.result_id);
+    if (liked !== null) {
+      ctx.editMessageReplyMarkup(buildLikeKeyboard(ctx.chosenInlineResult.result_id, liked));
+    }
+  }
+});
+
+bot.on('callback_query', async (ctx) => {
+  if (ctx.callbackQuery && ctx.from) {
+    const [rank, whiskeyId] = ctx.callbackQuery.data.split('__');
+    console.log(rank, whiskeyId);
+    const liked: Liked = {
+      rank: parseInt(rank, 10),
+      at: new Date()
+    };
+    await graphDAO.upsertWhiskeyLiked({
+      first_name: 'unknown',
+      last_name: 'unknown',
+      language_code: 'fr',
+      is_bot: false,
+      username: 'unknown',
+      ...ctx.from,
+    }, whiskeyId, liked);
+    ctx.editMessageReplyMarkup(buildLikeKeyboard(whiskeyId, liked));
   }
 });
 
