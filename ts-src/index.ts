@@ -36,6 +36,7 @@ bot.on('inline_query', async (ctx) => {
   const query = ctx.inlineQuery;
   if (query) {
     const whiskies = await documentDAO.getWhiskeyByName(query.query);
+
     const answer: InlineQueryResultArticle[] = whiskies.map((whiskey) => ({
       id: whiskey._id,
       type: 'article',
@@ -56,24 +57,38 @@ bot.on('inline_query', async (ctx) => {
         `
       },
     }));
+
     ctx.answerInlineQuery(answer);
   }
 });
+
+bot.command('searchByPercentAlcohol', async (ctx) => {
+  const msg = ctx.message.text;
+  const regex = /searchByPercentAlcohol (\d+(.\d+)?)/;
+  if (regex.test(msg)) {
+    const val = msg.split(regex);
+    const search = Number(val);
+
+    ctx.reply('nio')
+  }
+})
 
 bot.command('help', (ctx) => {
   ctx.reply(`
 A demo for the project given in the MAC course at the HEIG-VD.
 
-A user can display a movie and set a reaction to this movie (like, dislike).
-When asked, the bot will provide a recommendation based on the movies he liked or disliked.
+A user can display a whiskey and set a appreciation to this whiskey (like, dislike).
+When asked, the bot will provide a recommendation based on the whiskeys he liked or disliked.
 
-Use inline queries to display a movie, then use the inline keyboard of the resulting message to react.
+Use inline queries to display a whiskey, then use the inline keyboard of the resulting message to react.
 Use the command /recommendactor to get a personalized recommendation.
   `);
 });
 
 bot.command('start', (ctx) => {
-  ctx.reply('HEIG-VD Mac project example bot in javascript');
+  ctx.reply(
+      'A little about Whis-Key, we are students of the HEIG-VD who develop this project as part of the MAC ' +
+      'course with the Pr. Fatemi Nastaran and the TA. Hochet Guillaume and Meier Christopher');
 });
 
 

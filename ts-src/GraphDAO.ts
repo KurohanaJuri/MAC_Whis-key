@@ -1,7 +1,5 @@
 import neo4j, {Driver, types, int} from 'neo4j-driver';
-import {Actor, User} from "./Old/Model";
-import {Body, Color, Finish, Nose, Palate} from "./Model";
-
+import {Body, Color, Finish, Nose, Palate, User} from "./Model";
 
 class GraphDAO {
 
@@ -20,10 +18,13 @@ class GraphDAO {
         await this.driver.close();
     }
 
-    async upsertWhiskey(whiskeyId: string, whiskeyName: string) {
+    async upsertWhiskey(whiskeyId: string, whiskeyName: string, whiskeyPercent: number) {
         return await this.run(
-            'MERGE (w:Whiskey{id: $whiskeyId}) ON CREATE SET w.name = $whiskeyName RETURN w', {
+            'MERGE (w:Whiskey{id: $whiskeyId, percent: $whiskeyPercent}) ON CREATE ' +
+            'SET w.name = $whiskeyName ' +
+            'RETURN w', {
                 whiskeyId,
+                whiskeyPercent,
                 whiskeyName,
             })
     }
@@ -115,6 +116,8 @@ class GraphDAO {
             isBot: user.is_bot,
         });
     }
+
+    async
 
     private toInt(value: number | string) {
         return int(value);
