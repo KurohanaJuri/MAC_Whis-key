@@ -114,7 +114,7 @@ bot.command('liked', (ctx) => {
             const name = record.get('w').properties.name
             const rank = record.get('rank')
 
-            return `${name}: ${rank}`;
+            return `${name}: rank ${rank}`;
         }).join("\n\t");
 
         ctx.reply(`Liked whiskey \n\t${whiskeyList}`)
