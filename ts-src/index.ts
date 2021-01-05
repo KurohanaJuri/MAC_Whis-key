@@ -110,16 +110,52 @@ bot.command('start', (ctx) => {
 bot.command('liked', (ctx) => {
     graphDAO.getWhiskiesLikedByUser(ctx.from.id).then((records) => {
 
-        console.log(records)
-
         const whiskeyList = records.map((record) => {
             const name = record.get('w').properties.name
+            const rank = record.get('rank')
 
-            return `${name}`;
+            return `${name}: ${rank}`;
         }).join("\n\t");
 
-        ctx.reply(`liked whiskey \n\t${whiskeyList}`)
+        ctx.reply(`Liked whiskey \n\t${whiskeyList}`)
     })
+})
+
+bot.command('taste', (ctx) => {
+    graphDAO.getUserTaste(ctx.from.id).then((records) => {
+
+        console.log(records)
+
+        let noseList = []
+        let bodyList = []
+        let palateList = []
+        let finishList = []
+
+
+        records.map((record) => {
+            const label = record.get('n').labels[0]
+            const name = record.get('n').properties.name
+
+            switch (label) {
+                case "Nose" :
+                    noseList.push(name)
+                    break
+                case "Body":
+                    bodyList.push(name)
+                    break
+                case "Palate":
+                    palateList.push(name)
+                    break
+                case "Finish" :
+                    finishList.push(name)
+                    break
+            }
+        });
+
+        ctx.reply(`We found what your prefer in your whiskies : \n\tNose: ${noseList}\n\tBody: ${bodyList}\n\tPalate: ${palateList}\n\tFinish: ${finishList}`)
+    })
+
+
 })
 
 // Initialize mongo connexion

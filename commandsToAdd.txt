@@ -1,2 +1,3 @@
-help - show help
-liked - get likey whiskies
+help - Show help
+liked - Get liked whiskies
+taste - Get information about your taste

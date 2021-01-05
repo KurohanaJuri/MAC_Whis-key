@@ -69,13 +69,97 @@ class GraphDAO {
 
     async getWhiskiesLikedByUser(userId: number) {
         return await this.run(`
-           match (:User{id: $userId})-[l:LIKED]-(w:Whiskey) return w
+           match (:User{id: $userId})-[l:LIKED]-(w:Whiskey) return w, l.rank as rank 
         `, {
             userId
         }).then((res) =>
             res.records
         )
     }
+
+    /**
+     * create a request by taste categories, wait that all promises resolved and return the list of all result
+     * @param userId
+     */
+    async getUserTaste(userId: number) {
+        let palateRes
+        let palate = this.run('MATCH (:User{id : $userId})-[l:LIKED]-(w:Whiskey)-[:TASTE]-(p:Palate)\n' +
+            'with p, count(*) * l.rank as c\n' +
+            'with p, sum(c) as total\n' +
+            'with max(total) as maxValue\n' +
+            'Match (:User{id : $userId})-[l:LIKED]-(w:Whiskey)-[:TASTE]-(p:Palate)\n' +
+            'with p, count(*) * l.rank as c, maxValue\n' +
+            'with p, sum(c) as total, maxValue\n' +
+            'where total >= maxValue\n' +
+            'return p as n', {
+            userId
+        }).then((res) => {
+            palateRes = res.records
+        })
+
+        let noseRes
+        let nose = this.run('MATCH (:User{id : $userId})-[l:LIKED]-(w:Whiskey)-[:SMELL_LIKE]-(n:Nose)\n' +
+            'with n, count(*) * l.rank as c\n' +
+            'with n, sum(c) as total\n' +
+            'with max(total) as maxValue\n' +
+            'Match (:User{id : $userId})-[l:LIKED]-(w:Whiskey)-[:SMELL_LIKE]-(n:Nose)\n' +
+            'with n, count(*) * l.rank as c, maxValue\n' +
+            'with n, sum(c) as total, maxValue\n' +
+            'where total >= maxValue\n' +
+            'return n as n', {
+            userId
+        }).then((res) => {
+            noseRes = res.records
+        })
+
+        let bodyRes
+        let body = this.run('  MATCH (:User{id : $userId})-[l:LIKED]-(w:Whiskey)-[:HAS_AS_BODY]-(b:Body)\n' +
+            '  with b, count(*) * l.rank as c\n' +
+            '  with b, sum(c) as total\n' +
+            '  with max(total) as maxValue\n' +
+            '  Match (:User{id : $userId})-[l:LIKED]-(w:Whiskey)-[:HAS_AS_BODY]-(b:Body)\n' +
+            '  with b, count(*) * l.rank as c, maxValue\n' +
+            '  with b, sum(c) as total, maxValue\n' +
+            '  where total >= maxValue\n' +
+            '  return b as n', {
+            userId
+        }).then((res) => {
+            bodyRes = res.records
+        })
+
+        let finishRes
+        let finish = this.run('  MATCH (:User{id : 470575552})-[l:LIKED]-(w:Whiskey)-[:HAS_AS_FINISH]-(f:Finish)\n' +
+            '  with f, count(*) * l.rank as c\n' +
+            '  with f, sum(c) as total\n' +
+            '  with max(total) as maxValue\n' +
+            '  Match (:User{id : 470575552})-[l:LIKED]-(w:Whiskey)-[:HAS_AS_FINISH]-(f:Finish)\n' +
+            '  with f, count(*) * l.rank as c, maxValue\n' +
+            '  with f, sum(c) as total, maxValue\n' +
+            '  where total >= maxValue\n' +
+            '  return f as n', {
+            userId
+        }).then((res) => {
+            finishRes = res.records
+        })
+
+
+        return Promise.all([palate,nose, body, finish]).then(() => {
+            return palateRes.concat(noseRes, bodyRes, finishRes)
+        })
+
+    }
+
+    // TODO add user taste
+    /*
+    MATCH (w:Whiskey)-[rs]-(n)
+    where exists( (:User{id :470575552})-[:LIKED]-(w))
+    with n, count(rs) as rCounts
+    with max(rCounts) as maxCount
+    match (:User{id :470575552})-[l:LIKED]-(w:Whiskey)-[rs]-(n)
+    With n, count(rs) as bodyCount_2, maxCount
+    where bodyCount_2 >= maxCount
+    return n, maxCount
+     */
 
     async upsertWhiskey(whiskeyId: string, whiskeyName: string) {
         return await this.run(
