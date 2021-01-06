@@ -1,0 +1,4 @@
+help - Show help
+liked - Get liked whiskies
+taste - Get information about your taste
+recommendwhiskies - Show the recommended whiskies
