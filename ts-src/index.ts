@@ -124,8 +124,6 @@ bot.command('liked', (ctx) => {
 bot.command('taste', (ctx) => {
     graphDAO.getUserTaste(ctx.from.id).then((records) => {
 
-        console.log(records)
-
         let noseList = []
         let bodyList = []
         let palateList = []
@@ -154,9 +152,22 @@ bot.command('taste', (ctx) => {
 
         ctx.reply(`We found what your prefer in your whiskies : \n\tNose: ${noseList}\n\tBody: ${bodyList}\n\tPalate: ${palateList}\n\tFinish: ${finishList}`)
     })
-
-
 })
+
+bot.command('recommendwhiskies', (ctx) => {
+        graphDAO.recommendWhiskies(ctx.from.id).then((records) => {
+            if(records.length === 0){
+                ctx.reply("You haven't liked enough whiskies to have recommendations")
+            }else{
+                const whiskiesList = records.map((record) => {
+                    return record.get('w').properties.name
+                }).join("\n\t")
+
+                ctx.reply(`Based your liked and dislike we found the following whiskies:\n\t${whiskiesList}`)
+            }
+        })
+    }
+)
 
 // Initialize mongo connexion
 // before starting bot

@@ -143,23 +143,25 @@ class GraphDAO {
         })
 
 
-        return Promise.all([palate,nose, body, finish]).then(() => {
+        return Promise.all([palate, nose, body, finish]).then(() => {
             return palateRes.concat(noseRes, bodyRes, finishRes)
         })
 
     }
 
-    // TODO add user taste
-    /*
-    MATCH (w:Whiskey)-[rs]-(n)
-    where exists( (:User{id :470575552})-[:LIKED]-(w))
-    with n, count(rs) as rCounts
-    with max(rCounts) as maxCount
-    match (:User{id :470575552})-[l:LIKED]-(w:Whiskey)-[rs]-(n)
-    With n, count(rs) as bodyCount_2, maxCount
-    where bodyCount_2 >= maxCount
-    return n, maxCount
+    /**
+     * Return a list of recommended whiskey based on the user (dis)likes
+     * @param userId
      */
+    async recommendWhiskies(userId: number) {
+        return await this.run('MATCH (:User{id:$userId})-[:LIKED]-(:Whiskey)-[]-(c)-[]-(w:Whiskey) \n' +
+            // add rand to create a return a list of random whiskies based on the result
+            'return c,w, rand() as r \n' +
+            'ORDER BY r \n' +
+            'limit 10', {
+            userId
+        }).then((res) => res.records)
+    }
 
     async upsertWhiskey(whiskeyId: string, whiskeyName: string) {
         return await this.run(
