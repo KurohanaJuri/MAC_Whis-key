@@ -62,24 +62,29 @@ const documentDAO = new DocumentDAO();
     console.log('Writing users to neo4j');
     await Promise.all(users.map((user) => graphDAO.upsertUser(user)));
 
-    // Write movies in mongo
-    console.log('Parsing CSV and writing movies to mongo');
+    // Write whiskeys in mongo
+    console.log('Parsing CSV and writing whiskies to mongo');
     const parseWhiskiesBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
     const parsedWhiskies = await parseWhiskies();
     parseWhiskiesBar.start(parsedWhiskies.length, 0);
+    let i = 0
     await Promise.all(parsedWhiskies.map(async (it: any) => {
-        const [
-            name, color, nose, body, palate, finish, percent, region, district
-        ] = it;
-        await documentDAO.insertWhiskey({
-            name, color, noses: nose, bodies: body, palates: palate, finishes: finish, percent, region, district
-        })
-        parseWhiskiesBar.increment();
+        if(i !== 0) {
+            const [
+                name, color, nose, body, palate, finish, percent, region, district
+            ] = it;
+            await documentDAO.insertWhiskey({
+                name, color, noses: nose, bodies: body, palates: palate, finishes: finish, percent, region, district
+            })
+            parseWhiskiesBar.increment();
+        }
+
+        ++i
     }))
     parseWhiskiesBar.stop();
 
     // Load them back to get their id along
-    console.log('Loading movies back in memory');
+    console.log('Loading whiskies back in memory');
     const whiskies = await documentDAO.getAllWhiskies();
 
     // Retrieve all  color, nose, body, palate and finish from all whiskies, split them and assign a numeric id

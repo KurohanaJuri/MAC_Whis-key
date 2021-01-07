@@ -20,7 +20,7 @@ class GraphDAO {
 
     async upsertWhiskey(whiskeyId: string, whiskeyName: string, whiskeyPercent: number) {
         return await this.run(
-            'MERGE (w:Whiskey{id: $whiskeyId, percent: $whiskeyPercent}) ON CREATE ' +
+            'MERGE (w:Whiskey{id: $whiskeyId, percent: toFloat($whiskeyPercent)}) ON CREATE ' +
             'SET w.name = $whiskeyName ' +
             'RETURN w', {
                 whiskeyId,
