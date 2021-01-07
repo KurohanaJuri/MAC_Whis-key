@@ -69,7 +69,7 @@ const documentDAO = new DocumentDAO();
     parseWhiskiesBar.start(parsedWhiskies.length, 0);
     let i = 0
     await Promise.all(parsedWhiskies.map(async (it: any) => {
-        if(i !== 0) {
+        if(i > 0) {
             const [
                 name, color, nose, body, palate, finish, percent, region, district
             ] = it;
