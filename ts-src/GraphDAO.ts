@@ -1,6 +1,5 @@
 import neo4j, {Driver, types, int} from 'neo4j-driver';
-import {Actor, User} from "./Old/Model";
-import {Body, Color, Finish, Nose, Palate} from "./Model";
+import {Body, Color, Finish, Nose, Palate, Liked, User} from "./Model";
 
 
 class GraphDAO {
@@ -187,14 +186,6 @@ class GraphDAO {
         }).then((res) => res.records)
     }
 
-    async upsertWhiskey(whiskeyId: string, whiskeyName: string) {
-        return await this.run(
-            'MERGE (w:Whiskey{id: $whiskeyId}) ON CREATE SET w.name = $whiskeyName RETURN w', {
-                whiskeyId,
-                whiskeyName,
-            })
-    }
-
     async upsertColor(whiskeyId: string, color: Color) {
         return await this.run(`
       MATCH (w:Whiskey{ id: $whiskeyId })
@@ -286,6 +277,11 @@ class GraphDAO {
     private toInt(value: number | string) {
         return int(value);
     }
+
+    private toDate(value: Date) {
+        return types.DateTime.fromStandardDate(value);
+    }
+
 
 
     private async run(query: string, params: any) {
