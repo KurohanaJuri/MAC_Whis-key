@@ -111,6 +111,10 @@ const documentDAO = new DocumentDAO();
 
         await graphDAO.upsertWhiskey(whiskey._id, whiskey.name, whiskey.percent);
 
+        // Update whiskey <-> color links
+        let colorId = color.find((it) => it[1] === whiskey.color)[0] as number;
+        await graphDAO.upsertColor(whiskey._id, {id: colorId, name: whiskey.color})
+
         // Update whiskey <-> nose links
         await Promise.all(whiskeyNose.map((name) => {
             const id = noses.find((it) => it[1] === name)[0] as number;
