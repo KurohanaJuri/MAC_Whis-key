@@ -1,5 +1,5 @@
 import neo4j, {Driver, types, int} from 'neo4j-driver';
-import {Body, Color, Finish, Nose, Palate, User} from "./Model";
+import {Body, Color, Finish, Nose, Palate, User, Whiskey} from "./Model";
 
 class GraphDAO {
 
@@ -16,6 +16,18 @@ class GraphDAO {
 
     async close() {
         await this.driver.close();
+    }
+
+    async findByPercentAlchol(minPercent: number, maxPercent: number) {
+        return await this.run(
+            'MATCH (n:Whiskey) ' +
+            'WHERE n.percent > toFloat($minPercent) AND n.percent < toFloat($maxPercent) ' +
+            'RETURN n LIMIT 25',
+            {
+                minPercent,
+                maxPercent
+            }
+        )
     }
 
     async upsertWhiskey(whiskeyId: string, whiskeyName: string, whiskeyPercent: number) {
