@@ -4,8 +4,4 @@ node_modules
 
 .idea
 
-<<<<<<< HEAD
 .env
-=======
-.env
->>>>>>> master
