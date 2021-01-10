@@ -19,6 +19,15 @@ class GraphDAO {
         await this.driver.close();
     }
 
+    async upsertWhiskey(whiskeyId: string, whiskeyName: string, whiskeyPer: number) {
+      return await this.run(
+          'MERGE (w:Whiskey{id: $whiskeyId, percent: $whiskeyPer}) ON CREATE SET w.name = $whiskeyName RETURN w', {
+              whiskeyId,
+              whiskeyPer,
+              whiskeyName,
+          })
+    }
+
     async upsertWhiskeyLiked(user: User, whiskeyId: string, liked: Liked) {
         await this.run(`
         MATCH (w:Whiskey {id: $whiskeyId})
@@ -163,14 +172,6 @@ class GraphDAO {
         }).then((res) => res.records)
     }
 
-    async upsertWhiskey(whiskeyId: string, whiskeyName: string) {
-        return await this.run(
-            'MERGE (w:Whiskey{id: $whiskeyId}) ON CREATE SET w.name = $whiskeyName RETURN w', {
-                whiskeyId,
-                whiskeyName,
-            })
-    }
-
     async upsertColor(whiskeyId: string, color: Color) {
         return await this.run(`
       MATCH (w:Whiskey{ id: $whiskeyId })
@@ -257,6 +258,15 @@ class GraphDAO {
             languageCode: user.language_code,
             isBot: user.is_bot,
         });
+    }
+
+    async getTopPercentage() {
+      return await this.run(`
+        MATCH (w:Whiskey)
+        RETURN w, w.percent as perc
+        ORDER BY w.percent
+        LIMIT 10
+      `, {}).then((result) => result.records);
     }
 
     private toInt(value: number | string) {
