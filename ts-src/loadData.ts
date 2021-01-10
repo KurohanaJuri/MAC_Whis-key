@@ -7,7 +7,6 @@ import {join} from 'path';
 import DocumentDAO from "./DocumentDAO";
 import GraphDAO from "./GraphDAO";
 import {User} from "./Model";
-import {Movie} from "./Old/Model";
 
 
 dotenv.config();
@@ -106,6 +105,10 @@ const documentDAO = new DocumentDAO();
         const whiskeyFinishes = whiskey.finishes.split(',').map(i => i.trim());
 
         await graphDAO.upsertWhiskey(whiskey._id, whiskey.name, whiskey.percent);
+
+        // Update whiskey <-> color links
+        let colorId = color.find((it) => it[1] === whiskey.color)[0] as number;
+        await graphDAO.upsertColor(whiskey._id, {id: colorId, name: whiskey.color})
 
         // Update whiskey <-> nose links
         await Promise.all(whiskeyNose.map((name) => {

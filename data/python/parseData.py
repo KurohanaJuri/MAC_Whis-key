@@ -132,7 +132,13 @@ print(outputDf.head())
 
 output = outputDf.to_csv(quoting=csv.QUOTE_NONE, sep=";",
                          index=False, escapechar=None)
+
 output = output.replace(";", ",")
+
+dictItems = { "w.wine":"white wine", "v.pale":"very pale","p.gold":"pale gold","o.gold":"old gold", "f.gold":"full gold", "p.amber":"pale amber", "f.amber":"full amber", "f.sherry":"fino sherry"}
+
+for old, new in dictItems.items() :
+    output = output.replace(old, new)
 
 file = open("cleanDataSet.csv", "w")
 file.write(output)
