@@ -2,12 +2,12 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-import { Telegraf } from 'telegraf';
-import { InlineKeyboardMarkup, InlineQueryResultArticle } from 'telegraf/typings/telegram-types';
+import {Telegraf} from 'telegraf';
+import {InlineKeyboardMarkup, InlineQueryResultArticle} from 'telegraf/typings/telegram-types';
 
 import DocumentDAO from './DocumentDAO';
 import GraphDAO from './GraphDAO';
-import { Liked, likedValues } from './Model';
+import {Liked, likedValues} from './Model';
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const graphDAO = new GraphDAO();
@@ -33,17 +33,17 @@ function buildLikeKeyboard(whiskeyId: string, currentLike?: Liked): InlineKeyboa
 
 // User is using the inline query mode on the bot
 bot.on('inline_query', async (ctx) => {
-  const query = ctx.inlineQuery;
-  if (query) {
-    const whiskies = await documentDAO.getWhiskeyByName(query.query);
-    const answer: InlineQueryResultArticle[] = whiskies.map((whiskey) => ({
-      id: whiskey._id,
-      type: 'article',
-      title: whiskey.name,
-      description: '',
-      reply_markup: buildLikeKeyboard(whiskey._id),
-      input_message_content: {
-        message_text: stripMargin`
+    const query = ctx.inlineQuery;
+    if (query) {
+        const whiskies = await documentDAO.getWhiskeyByName(query.query);
+        const answer: InlineQueryResultArticle[] = whiskies.map((whiskey) => ({
+            id: whiskey._id,
+            type: 'article',
+            title: whiskey.name,
+            description: '',
+            reply_markup: buildLikeKeyboard(whiskey._id),
+            input_message_content: {
+                message_text: stripMargin`
           |Name: ${whiskey.name}
           |Color: ${whiskey.color}
           |Nose: ${whiskey.noses}
@@ -54,10 +54,10 @@ bot.on('inline_query', async (ctx) => {
           |Region: ${whiskey.region}
           |District: ${whiskey.district}
         `
-      },
-    }));
-    ctx.answerInlineQuery(answer);
-  }
+            },
+        }));
+        ctx.answerInlineQuery(answer);
+    }
 });
 
 bot.command('searchByPercentAlcohol', async (ctx) => {
@@ -125,7 +125,7 @@ bot.on('callback_query', async (ctx) => {
 });
 
 bot.command('help', (ctx) => {
-  ctx.reply(`
+    ctx.reply(`
 A demo for the project given in the MAC course at the HEIG-VD.
 
 A user can display a movie and set a reaction to this movie (like, dislike).
@@ -137,37 +137,41 @@ Use the command /recommendactor to get a personalized recommendation.
 });
 
 bot.command('start', (ctx) => {
-  ctx.reply('HEIG-VD Mac project example bot in javascript');
+    ctx.reply('HEIG-VD Mac project example bot in javascript');
 });
 
 bot.command('Top10HighestPercentage', (ctx) => {
 
-  graphDAO.getTopPercentage().then((records) => {
-    if (records.length === 0) ctx.reply("There is no records available.");
-    else {
-      const whiskeyList = records.map((record) => {
-        const name = record.get('w').properties.name;
-        const percent = record.get('perc');
+    graphDAO.getTopPercentage().then((records) => {
+        if (records.length === 0) ctx.reply("There is no records available.");
+        else {
+            const whiskeyList = records.map((record) => {
+                const name = record.get('w').properties.name;
+                const percent = record.get('perc');
 
-        return `${name}` + ` (${percent}%)`;
-      }).join("\n\t");
+                return `${name}` + ` (${percent}%)`;
+            }).join("\n\t");
 
-      ctx.reply(`====== TOP 10 ======\nHIGHEST % WHISKEYS\n====================\n${whiskeyList}`);
-    }
-  });
+            ctx.reply(`====== TOP 10 ======\nHIGHEST % WHISKEYS\n====================\n${whiskeyList}`);
+        }
+    });
 });
 
 bot.command('liked', (ctx) => {
     graphDAO.getWhiskiesLikedByUser(ctx.from.id).then((records) => {
 
-        const whiskeyList = records.map((record) => {
-            const name = record.get('w').properties.name
-            const rank = record.get('rank')
+        if (records.length === 0) ctx.reply("You don't put any liked to a whiskey :(\n" +
+            "You can search a whiskey with an inline query and add a like\n");
+        else {
+            const whiskeyList = records.map((record) => {
+                const name = record.get('w').properties.name
+                const rank = record.get('rank')
 
-            return `${name}: rank ${rank}`;
-        }).join("\n\t");
+                return `${name}: rank ${rank}`;
+            }).join("\n\t");
 
-        ctx.reply(`Liked whiskey \n\t${whiskeyList}`)
+            ctx.reply(`Liked whiskey \n\t${whiskeyList}`)
+        }
     })
 })
 
@@ -206,9 +210,9 @@ bot.command('taste', (ctx) => {
 
 bot.command('recommendwhiskies', (ctx) => {
         graphDAO.recommendWhiskies(ctx.from.id).then((records) => {
-            if(records.length === 0){
+            if (records.length === 0) {
                 ctx.reply("You haven't liked enough whiskies to have recommendations")
-            }else{
+            } else {
                 const whiskiesList = records.map((record) => {
                     return record.get('w').properties.name
                 }).join("\n\t")
@@ -222,5 +226,5 @@ bot.command('recommendwhiskies', (ctx) => {
 // Initialize mongo connexion
 // before starting bot
 documentDAO.init().then(() => {
-  bot.startPolling();
+    bot.startPolling();
 });
