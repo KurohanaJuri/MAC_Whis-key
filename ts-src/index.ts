@@ -2,12 +2,12 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-import {Telegraf} from 'telegraf';
-import {InlineKeyboardMarkup, InlineQueryResultArticle} from 'telegraf/typings/telegram-types';
+import { Telegraf } from 'telegraf';
+import { InlineKeyboardMarkup, InlineQueryResultArticle } from 'telegraf/typings/telegram-types';
 
 import DocumentDAO from './DocumentDAO';
 import GraphDAO from './GraphDAO';
-import {Liked, likedValues} from './Model';
+import { Liked, likedValues } from './Model';
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const graphDAO = new GraphDAO();
@@ -33,17 +33,17 @@ function buildLikeKeyboard(whiskeyId: string, currentLike?: Liked): InlineKeyboa
 
 // User is using the inline query mode on the bot
 bot.on('inline_query', async (ctx) => {
-    const query = ctx.inlineQuery;
-    if (query) {
-        const whiskies = await documentDAO.getWhiskeyByName(query.query);
-        const answer: InlineQueryResultArticle[] = whiskies.map((whiskey) => ({
-            id: whiskey._id,
-            type: 'article',
-            title: whiskey.name,
-            description: '',
-            reply_markup: buildLikeKeyboard(whiskey._id),
-            input_message_content: {
-                message_text: stripMargin`
+  const query = ctx.inlineQuery;
+  if (query) {
+    const whiskies = await documentDAO.getWhiskeyByName(query.query);
+    const answer: InlineQueryResultArticle[] = whiskies.map((whiskey) => ({
+      id: whiskey._id,
+      type: 'article',
+      title: whiskey.name,
+      description: '',
+      reply_markup: buildLikeKeyboard(whiskey._id),
+      input_message_content: {
+        message_text: stripMargin`
           |Name: ${whiskey.name}
           |Color: ${whiskey.color}
           |Nose: ${whiskey.noses}
@@ -54,11 +54,44 @@ bot.on('inline_query', async (ctx) => {
           |Region: ${whiskey.region}
           |District: ${whiskey.district}
         `
-            },
-        }));
-        ctx.answerInlineQuery(answer);
-    }
+      },
+    }));
+    ctx.answerInlineQuery(answer);
+  }
 });
+
+bot.command('searchByPercentAlcohol', async (ctx) => {
+    const msg = ctx.message.text;
+    const regex = /searchByPercentAlcohol (\d+(.\d+)?) (\d+(.\d+)?)/;
+    if (regex.test(msg)) {
+        const val = msg.split(regex);
+
+        // index defined by the array returned by split
+
+        let minPercent: number = +val[1]
+        let maxPercent: number = +val[3]
+
+        const whiskies = await graphDAO.findByPercentAlchol(minPercent, maxPercent)
+
+        let answer: string = ''
+
+        whiskies.records.map((record) => {
+            const whiskey = record.get('n')
+
+            answer += stripMargin`
+          |Name: ${whiskey.properties.name}
+          |Percent: ${Number(whiskey.properties.percent).toFixed(2)} %
+          |-----------------
+        `
+        });
+
+        if (answer.length === 0) {
+            ctx.reply('No whiskeys found')
+        } else {
+            ctx.reply(answer);
+        }
+    }
+})
 
 // User chose a whiskey from the list displayed in the inline query
 // Used to update the keyboard and show filled stars if user already liked it
@@ -92,7 +125,7 @@ bot.on('callback_query', async (ctx) => {
 });
 
 bot.command('help', (ctx) => {
-    ctx.reply(`
+  ctx.reply(`
 A demo for the project given in the MAC course at the HEIG-VD.
 
 A user can display a movie and set a reaction to this movie (like, dislike).
@@ -104,7 +137,7 @@ Use the command /recommendactor to get a personalized recommendation.
 });
 
 bot.command('start', (ctx) => {
-    ctx.reply('HEIG-VD Mac project example bot in javascript');
+  ctx.reply('HEIG-VD Mac project example bot in javascript');
 });
 
 bot.command('Top10HighestPercentage', (ctx) => {
@@ -189,5 +222,5 @@ bot.command('recommendwhiskies', (ctx) => {
 // Initialize mongo connexion
 // before starting bot
 documentDAO.init().then(() => {
-    bot.startPolling();
+  bot.startPolling();
 });
