@@ -2,12 +2,13 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-import {Telegraf} from 'telegraf';
-import {InlineKeyboardMarkup, InlineQueryResultArticle} from 'telegraf/typings/telegram-types';
+import { Telegraf } from 'telegraf';
+import { InlineKeyboardMarkup, InlineQueryResultArticle } from 'telegraf/typings/telegram-types';
 
 import DocumentDAO from './DocumentDAO';
 import GraphDAO from './GraphDAO';
-import {Liked, likedValues} from './Model';
+import { Liked, likedValues, Whiskey } from './Model';
+import {TelegrafContext} from "telegraf/typings/context";
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const graphDAO = new GraphDAO();
@@ -31,19 +32,48 @@ function buildLikeKeyboard(whiskeyId: string, currentLike?: Liked): InlineKeyboa
     }
 }
 
+async function replyWithCtxStarKeyboard(whiskey: Whiskey, ctx: TelegrafContext) {
+
+    const msg = stripMargin`
+                  |Name: ${whiskey.name}
+                  |Color: ${whiskey.color}
+                  |Nose: ${whiskey.noses}
+                  |Body: ${whiskey.bodies}
+                  |Palate: ${whiskey.palates}
+                  |Finish : ${whiskey.finishes}
+                  |Percent: ${whiskey.percent}
+                  |Region: ${whiskey.region}
+                  |District: ${whiskey.district}
+                `
+
+    const id = whiskey._id.toString()
+
+    const liked = await graphDAO.getWhiskeyLiked(ctx.from.id, id);
+
+    if (liked !== null) {
+        await ctx.reply(msg, {
+            reply_markup: buildLikeKeyboard(whiskey._id, liked)
+        })
+    } else {
+        await ctx.reply(msg, {
+            reply_markup: buildLikeKeyboard(whiskey._id)
+        })
+    }
+}
+
 // User is using the inline query mode on the bot
 bot.on('inline_query', async (ctx) => {
-    const query = ctx.inlineQuery;
-    if (query) {
-        const whiskies = await documentDAO.getWhiskeyByName(query.query);
-        const answer: InlineQueryResultArticle[] = whiskies.map((whiskey) => ({
-            id: whiskey._id,
-            type: 'article',
-            title: whiskey.name,
-            description: '',
-            reply_markup: buildLikeKeyboard(whiskey._id),
-            input_message_content: {
-                message_text: stripMargin`
+  const query = ctx.inlineQuery;
+  if (query) {
+    const whiskies = await documentDAO.getWhiskeyByName(query.query);
+    const answer: InlineQueryResultArticle[] = whiskies.map((whiskey) => ({
+      id: whiskey._id,
+      type: 'article',
+      title: whiskey.name,
+      description: '',
+      reply_markup: buildLikeKeyboard(whiskey._id),
+      input_message_content: {
+        message_text: stripMargin`
           |Name: ${whiskey.name}
           |Color: ${whiskey.color}
           |Nose: ${whiskey.noses}
@@ -54,10 +84,10 @@ bot.on('inline_query', async (ctx) => {
           |Region: ${whiskey.region}
           |District: ${whiskey.district}
         `
-            },
-        }));
-        ctx.answerInlineQuery(answer);
-    }
+      },
+    }));
+    ctx.answerInlineQuery(answer);
+  }
 });
 
 bot.command('searchbypercentalcohol', async (ctx) => {
@@ -80,21 +110,7 @@ bot.command('searchbypercentalcohol', async (ctx) => {
                     const whiskiesByName = await documentDAO.getWhiskeyByName(found.properties.name)
                     const whiskey = whiskiesByName[0]
 
-                    const msg = stripMargin`
-                  |Name: ${whiskey.name}
-                  |Color: ${whiskey.color}
-                  |Nose: ${whiskey.noses}
-                  |Body: ${whiskey.bodies}
-                  |Palate: ${whiskey.palates}
-                  |Finish : ${whiskey.finishes}
-                  |Percent: ${whiskey.percent}
-                  |Region: ${whiskey.region}
-                  |District: ${whiskey.district}
-                `
-
-                    await ctx.reply(msg, {
-                        reply_markup: buildLikeKeyboard(whiskey._id)
-                    })
+                    await replyWithCtxStarKeyboard(whiskey, ctx)
                 });
             } else {
                 ctx.reply('No whiskies found')
@@ -165,38 +181,30 @@ bot.command('top10highestpercentage', (ctx) => {
     graphDAO.getTopPercentage().then((records) => {
         if (records.length === 0) ctx.reply("There is no records available.");
         else {
-            const whiskeyList = records.map((record) => {
-                const name = record.get('w').properties.name;
-                const percent = record.get('perc');
 
-                return `${name}` + ` (${percent}%)`;
-            }).join("\n\t");
+            records.map(async (record) => {
+                const found = record.get('w')
+                const whiskies = await documentDAO.getWhiskeyByName(found.properties.name)
+                const whiskey = whiskies[0]
 
-            ctx.reply(stripMargin`
-          |====== TOP 10 =======
-          |HIGHEST % WHISKEYS
-          |====================
-          |${whiskeyList}`);
+                await replyWithCtxStarKeyboard(whiskey, ctx)
+            })
         }
     });
 });
 
 bot.command('top10liked', (ctx) => {
     graphDAO.getTop10Liked().then((records) => {
-        if (records.length === 0) ctx.reply("There is no records available.");
+        if (records.length === 0)
+            ctx.reply("There is no records available.");
         else {
-            const whiskeyList = records.map((record) => {
+            records.map(async (record) => {
                 const name = record.get('name');
-                const total = record.get('times');
+                const whiskies = await documentDAO.getWhiskeyByName(name)
+                const whiskey = whiskies[0]
 
-                return `${name}` + ` (${total} like` + (total > 1 ? `s` : ``) + `)`;
-            }).join("\n\t");
-
-            ctx.reply(stripMargin`
-          |====== TOP 10 =======
-          |MOST LIKED WHISKEYS
-          |=====================
-          |${whiskeyList}`);
+                await replyWithCtxStarKeyboard(whiskey, ctx)
+            })
         }
     });
 });
@@ -208,14 +216,13 @@ bot.command('liked', (ctx) => {
         if (records.length === 0) ctx.reply("You don't put any liked to a whiskey :(\n" +
             "You can search a whiskey with an inline query and add a like\n");
         else {
-            const whiskeyList = records.map((record) => {
-                const name = record.get('w').properties.name
-                const rank = record.get('rank')
+            records.map(async (record) => {
+                const found = record.get('w')
+                const whiskies = await documentDAO.getWhiskeyByName(found.properties.name)
+                const whiskey = whiskies[0]
 
-                return `${name}: rank ${rank}`;
-            }).join("\n\t");
-
-            ctx.reply(`Liked whiskey \n\t${whiskeyList}`)
+                await replyWithCtxStarKeyboard(whiskey, ctx)
+            })
         }
     })
 })
@@ -233,25 +240,25 @@ bot.command('taste', (ctx) => {
             let finishList = []
 
 
-            records.map((record) => {
-                const label = record.get('n').labels[0]
-                const name = record.get('n').properties.name
+        records.map((record) => {
+            const label = record.get('n').labels[0]
+            const name = record.get('n').properties.name
 
-                switch (label) {
-                    case "Nose" :
-                        noseList.push(name)
-                        break
-                    case "Body":
-                        bodyList.push(name)
-                        break
-                    case "Palate":
-                        palateList.push(name)
-                        break
-                    case "Finish" :
-                        finishList.push(name)
-                        break
-                }
-            });
+            switch (label) {
+                case "Nose" :
+                    noseList.push(name)
+                    break
+                case "Body":
+                    bodyList.push(name)
+                    break
+                case "Palate":
+                    palateList.push(name)
+                    break
+                case "Finish" :
+                    finishList.push(name)
+                    break
+            }
+        });
 
             ctx.reply(`We found what your prefer in your whiskies : \n\tNose: ${noseList}\n\tBody: ${bodyList}\n\tPalate: ${palateList}\n\tFinish: ${finishList}`)
         }
@@ -260,9 +267,9 @@ bot.command('taste', (ctx) => {
 
 bot.command('recommendwhiskies', (ctx) => {
         graphDAO.recommendWhiskies(ctx.from.id).then((records) => {
-            if (records.length === 0) {
+            if(records.length === 0){
                 ctx.reply("You haven't liked enough whiskies to have recommendations")
-            } else {
+            }else{
                 const whiskiesList = records.map((record) => {
                     return record.get('w').properties.name
                 }).join("\n\t")
@@ -276,5 +283,5 @@ bot.command('recommendwhiskies', (ctx) => {
 // Initialize mongo connexion
 // before starting bot
 documentDAO.init().then(() => {
-    bot.startPolling();
+  bot.startPolling();
 });
