@@ -76,13 +76,12 @@ bot.command('searchByPercentAlcohol', async (ctx) => {
         let answer: string = ''
 
         whiskies.records.map((record) => {
-            const found = record.get('n')
-
-            const whiskey = documentDAO.getWhiskeyById(found.properties.id)
+            const whiskey = record.get('n')
 
             answer += stripMargin`
-          |Name: ${found.properties.name}
-          |Percent: ${Number(found.properties.percent).toFixed(2)} %
+          |Name: ${whiskey.properties.name}
+          |Percent: ${Number(whiskey.properties.percent).toFixed(2)} %
+          |-----------------
         `
         });
 
@@ -171,14 +170,18 @@ bot.command('top10HighestPercentage', (ctx) => {
 bot.command('liked', (ctx) => {
     graphDAO.getWhiskiesLikedByUser(ctx.from.id).then((records) => {
 
-        const whiskeyList = records.map((record) => {
-            const name = record.get('w').properties.name
-            const rank = record.get('rank')
+        if (records.length === 0) ctx.reply("You don't put any liked to a whiskey :(\n" +
+            "You can search a whiskey with an inline query and add a like\n");
+        else {
+            const whiskeyList = records.map((record) => {
+                const name = record.get('w').properties.name
+                const rank = record.get('rank')
 
-            return `${name}: rank ${rank}`;
-        }).join("\n\t");
+                return `${name}: rank ${rank}`;
+            }).join("\n\t");
 
-        ctx.reply(`Liked whiskey \n\t${whiskeyList}`)
+            ctx.reply(`Liked whiskey \n\t${whiskeyList}`)
+        }
     })
 })
 
