@@ -179,7 +179,11 @@ bot.command('top10Liked', (ctx) => {
             return `${name}` + ` (${total} like` + (total > 1 ? `s` : ``) + `)`;
         }).join("\n\t");
 
-        ctx.reply(`====== TOP 10 ======\nMOST LIKED WHISKEYS\n====================\n${whiskeyList}`);
+        ctx.reply(stripMargin`
+          |====== TOP 10 =======
+          |MOST LIKED WHISKEYS
+          |=====================
+          |${whiskeyList}`);
         }
     });
 });
