@@ -26,4 +26,4 @@ We can add the available command with `/setcommands`.
 * ```/taste``` : Shows the user's taste grouped by nose, body, palate and finish.
 * ```/liked``` : List all whiskeys liked by the current user.
 * ```/recommendwhiskies``` : List whiskeys recommended depending on the user's likes
-* ```/searchByPercentAlcohol <min> <max>```: // TODO ECRIRE STEPH
+* ```/searchByPercentAlcohol <min> <max>```: List whiskeys with an alcohol percentage between the range ]min, max[
