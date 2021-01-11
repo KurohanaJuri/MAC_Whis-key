@@ -33,7 +33,7 @@ class DocumentDAO {
         return await this.collection.find({'name': new RegExp(search)}).limit(10).toArray();
     }
 
-    async getWhiskeyById(id: string) {
+    async getWhiskeyById(id: string): Promise<Whiskey> {
         return await this.collection.findOne({_id: id})
     }
 

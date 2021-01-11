@@ -278,7 +278,7 @@ class GraphDAO {
       return await this.run(`
         MATCH (w:Whiskey)
         RETURN w, w.percent as perc
-        ORDER BY w.percent
+        ORDER BY w.percent DESC
         LIMIT 10
       `, {}).then((result) => result.records);
     }

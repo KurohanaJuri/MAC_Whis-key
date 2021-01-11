@@ -76,12 +76,13 @@ bot.command('searchByPercentAlcohol', async (ctx) => {
         let answer: string = ''
 
         whiskies.records.map((record) => {
-            const whiskey = record.get('n')
+            const found = record.get('n')
+
+            const whiskey = documentDAO.getWhiskeyById(found.properties.id)
 
             answer += stripMargin`
-          |Name: ${whiskey.properties.name}
-          |Percent: ${Number(whiskey.properties.percent).toFixed(2)} %
-          |-----------------
+          |Name: ${found.properties.name}
+          |Percent: ${Number(found.properties.percent).toFixed(2)} %
         `
         });
 
@@ -126,21 +127,27 @@ bot.on('callback_query', async (ctx) => {
 
 bot.command('help', (ctx) => {
   ctx.reply(`
-A demo for the project given in the MAC course at the HEIG-VD.
+This project is devlopped in as part of MAC course at the HEIG-VD.
 
-A user can display a movie and set a reaction to this movie (like, dislike).
-When asked, the bot will provide a recommendation based on the movies he liked or disliked.
+A user can display a whiskey with a inline query and give a note to this whiskey. 
+We can recommand whiskies based on the likes and we can show which tastes the user likes the most.
 
-Use inline queries to display a movie, then use the inline keyboard of the resulting message to react.
-Use the command /recommendactor to get a personalized recommendation.
+Available command :
+
+/help : List all the commands below and describe this project.
+/top10HighestPercentage : List the whiskeys with the highest percentage of alcohol.
+/taste : Shows the user's taste grouped by nose, body, palate and finish.
+/liked : List all whiskeys liked by the current user.
+/recommendwhiskies : List whiskeys recommended depending on the user's likes
+/searchByPercentAlcohol <min> <max> : List the whiskies between <min> <max> percentage
   `);
 });
 
 bot.command('start', (ctx) => {
-  ctx.reply('HEIG-VD Mac project example bot in javascript');
+  ctx.reply('HEIG-VD Mac project');
 });
 
-bot.command('Top10HighestPercentage', (ctx) => {
+bot.command('top10HighestPercentage', (ctx) => {
 
   graphDAO.getTopPercentage().then((records) => {
     if (records.length === 0) ctx.reply("There is no records available.");
@@ -152,7 +159,11 @@ bot.command('Top10HighestPercentage', (ctx) => {
         return `${name}` + ` (${percent}%)`;
       }).join("\n\t");
 
-      ctx.reply(`====== TOP 10 ======\nHIGHEST % WHISKEYS\n====================\n${whiskeyList}`);
+      ctx.reply(stripMargin`
+          |====== TOP 10 =======
+          |HIGHEST % WHISKEYS
+          |====================
+          |${whiskeyList}`);
     }
   });
 });
