@@ -274,6 +274,9 @@ class GraphDAO {
         });
     }
 
+    /**
+     * Get the whiskeys with the most percentage
+     */
     async getTopPercentage() {
       return await this.run(`
         MATCH (w:Whiskey)
@@ -282,6 +285,20 @@ class GraphDAO {
         LIMIT 10
       `, {}).then((result) => result.records);
     }
+
+    /**
+     * Get the top 10 whiskey liked
+     */
+    async getTop10Liked() {
+        return await this.run(`
+            MATCH (u:User)-[l:LIKED]-(w:Whiskey)
+            WITH w.name as name, count(*) as times
+            WITH collect({name:name, times:times}) as rows, max(times) as max
+            UNWIND [row in rows WHERE row.times = max] as row
+            RETURN row.name as name, row.times as times
+            LIMIT 10
+        `, {}).then((result) => result.records);
+      }
 
     private toInt(value: number | string) {
         return int(value);
