@@ -19,13 +19,27 @@ class GraphDAO {
         await this.driver.close();
     }
 
-    async upsertWhiskey(whiskeyId: string, whiskeyName: string, whiskeyPer: number) {
-      return await this.run(
-          'MERGE (w:Whiskey{id: $whiskeyId, percent: $whiskeyPer}) ON CREATE SET w.name = $whiskeyName RETURN w', {
-              whiskeyId,
-              whiskeyPer,
-              whiskeyName,
-          })
+    async findByPercentAlchol(minPercent: number, maxPercent: number) {
+        return await this.run(
+            'MATCH (n:Whiskey) ' +
+            'WHERE n.percent > toFloat($minPercent) AND n.percent < toFloat($maxPercent) ' +
+            'RETURN n LIMIT 25',
+            {
+                minPercent,
+                maxPercent
+            }
+        )
+    }
+
+    async upsertWhiskey(whiskeyId: string, whiskeyName: string, whiskeyPercent: number) {
+        return await this.run(
+            'MERGE (w:Whiskey{id: $whiskeyId, percent: toFloat($whiskeyPercent)}) ON CREATE ' +
+            'SET w.name = $whiskeyName ' +
+            'RETURN w', {
+                whiskeyId,
+                whiskeyPercent,
+                whiskeyName,
+            })
     }
 
     async upsertWhiskeyLiked(user: User, whiskeyId: string, liked: Liked) {
