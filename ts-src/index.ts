@@ -180,6 +180,28 @@ bot.command('top10HighestPercentage', (ctx) => {
   });
 });
 
+bot.command('top10Liked', (ctx) => {
+    graphDAO.getTop10Liked().then((records) => {
+        if (records.length === 0) 
+            ctx.reply("There is no records available.");
+        else {
+        const whiskeyList = records.map((record) => {
+            const name = record.get('name');
+            const total = record.get('times');
+
+            return `${name}` + ` (${total} like` + (total > 1 ? `s` : ``) + `)`;
+        }).join("\n\t");
+
+        ctx.reply(stripMargin`
+          |====== TOP 10 =======
+          |MOST LIKED WHISKEYS
+          |=====================
+          |${whiskeyList}`);
+        }
+    });
+});
+  
+
 bot.command('liked', (ctx) => {
     graphDAO.getWhiskiesLikedByUser(ctx.from.id).then((records) => {
 
