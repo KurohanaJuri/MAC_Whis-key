@@ -1,5 +1,5 @@
 help - List all the commands below and describe this project.
-top10highesthpercentage - List the whiskeys with the highest percentage of alcohol.
+top10highestpercentage - List the whiskeys with the highest percentage of alcohol.
 taste - Shows the user's taste grouped by nose, body, palate and finish.
 liked - List all whiskeys liked by the current user.
 top10liked - List the top 10 whiskey liked by ours users

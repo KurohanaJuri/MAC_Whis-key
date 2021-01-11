@@ -62,7 +62,7 @@ bot.on('inline_query', async (ctx) => {
 
 bot.command('searchbypercentalcohol', async (ctx) => {
     const msg = ctx.message.text;
-    const regex = /searchByPercentAlcohol (\d+(.\d+)?) (\d+(.\d+)?)/;
+    const regex = /searchbypercentalcohol (\d+(.\d+)?) (\d+(.\d+)?)/;
     if (regex.test(msg)) {
         const val = msg.split(regex);
 
