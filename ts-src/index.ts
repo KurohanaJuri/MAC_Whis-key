@@ -140,6 +140,23 @@ bot.command('start', (ctx) => {
   ctx.reply('HEIG-VD Mac project example bot in javascript');
 });
 
+bot.command('Top10HighestPercentage', (ctx) => {
+
+  graphDAO.getTopPercentage().then((records) => {
+    if (records.length === 0) ctx.reply("There is no records available.");
+    else {
+      const whiskeyList = records.map((record) => {
+        const name = record.get('w').properties.name;
+        const percent = record.get('perc');
+
+        return `${name}` + ` (${percent}%)`;
+      }).join("\n\t");
+
+      ctx.reply(`====== TOP 10 ======\nHIGHEST % WHISKEYS\n====================\n${whiskeyList}`);
+    }
+  });
+});
+
 bot.command('liked', (ctx) => {
     graphDAO.getWhiskiesLikedByUser(ctx.from.id).then((records) => {
 

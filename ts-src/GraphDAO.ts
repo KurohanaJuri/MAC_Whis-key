@@ -1,5 +1,5 @@
 import neo4j, {Driver, types, int} from 'neo4j-driver';
-import {Body, Color, Finish, Nose, Palate, Liked, User} from "./Model";
+import {Body, Color, Finish, Liked, Nose, Palate, User, Whiskey} from "./Model";
 
 
 class GraphDAO {
@@ -191,7 +191,7 @@ class GraphDAO {
       MATCH (w:Whiskey{ id: $whiskeyId })
       MERGE (c:Color{id: $colorId})
         ON CREATE SET c.name = $colorName
-      MERGE (w)-[r:IS]->(c)
+      MERGE (w)-[r:IS_COLORED]->(c)
     `, {
             whiskeyId,
             colorId: color.id,
@@ -217,7 +217,7 @@ class GraphDAO {
       MATCH (w:Whiskey{ id: $whiskeyId })
       MERGE (b:Body{id: $bodyId})
         ON CREATE SET b.name = $bodyName
-      MERGE (w)-[r:IS]->(b)
+      MERGE (w)-[r:HAS_AS_BODY]->(b)
     `, {
             whiskeyId,
             bodyId: body.id,
@@ -274,6 +274,15 @@ class GraphDAO {
         });
     }
 
+    async getTopPercentage() {
+      return await this.run(`
+        MATCH (w:Whiskey)
+        RETURN w, w.percent as perc
+        ORDER BY w.percent
+        LIMIT 10
+      `, {}).then((result) => result.records);
+    }
+
     private toInt(value: number | string) {
         return int(value);
     }
@@ -281,8 +290,6 @@ class GraphDAO {
     private toDate(value: Date) {
         return types.DateTime.fromStandardDate(value);
     }
-
-
 
     private async run(query: string, params: any) {
         const session = this.driver.session();
