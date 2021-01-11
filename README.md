@@ -17,13 +17,13 @@ The bot is under the alias ```Whis-key```
 Our application use inline query, we need to enable this in botfather. 
 With `/setinline` enable this and add a placeholder message and `/setinlinefeedback` to enable to retrieve the feedback
 
-We can add the available command with `/setcommands`.
+We can add the available command with `/setcommands`. Your can copy paste the text in the file `commandsToAdd.txt` in botfather
 
 ## Available Commands
 
 * ```/help``` : List all the commands below and describe this project.
-* ```/top10HighestPercentage``` : List the whiskeys with the highest percentage of alcohol.
+* ```/top10highestpercentage``` : List the whiskeys with the highest percentage of alcohol.
 * ```/taste``` : Shows the user's taste grouped by nose, body, palate and finish.
 * ```/liked``` : List all whiskeys liked by the current user.
 * ```/recommendwhiskies``` : List whiskeys recommended depending on the user's likes
-* ```/searchByPercentAlcohol <min> <max>```: List whiskeys with an alcohol percentage between the range ]min, max[
+* ```/searchbypercentalcohol <min> <max>```: List whiskeys with an alcohol percentage between the range ]min, max[

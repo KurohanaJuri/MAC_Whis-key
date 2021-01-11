@@ -60,7 +60,7 @@ bot.on('inline_query', async (ctx) => {
   }
 });
 
-bot.command('searchByPercentAlcohol', async (ctx) => {
+bot.command('searchbypercentalcohol', async (ctx) => {
     const msg = ctx.message.text;
     const regex = /searchByPercentAlcohol (\d+(.\d+)?) (\d+(.\d+)?)/;
     if (regex.test(msg)) {
@@ -159,7 +159,7 @@ bot.command('start', (ctx) => {
   ctx.reply('HEIG-VD Mac project');
 });
 
-bot.command('top10HighestPercentage', (ctx) => {
+bot.command('top10highestpercentage', (ctx) => {
 
   graphDAO.getTopPercentage().then((records) => {
     if (records.length === 0) ctx.reply("There is no records available.");
@@ -180,9 +180,9 @@ bot.command('top10HighestPercentage', (ctx) => {
   });
 });
 
-bot.command('top10Liked', (ctx) => {
+bot.command('top10liked', (ctx) => {
     graphDAO.getTop10Liked().then((records) => {
-        if (records.length === 0) 
+        if (records.length === 0)
             ctx.reply("There is no records available.");
         else {
         const whiskeyList = records.map((record) => {
@@ -200,7 +200,7 @@ bot.command('top10Liked', (ctx) => {
         }
     });
 });
-  
+
 
 bot.command('liked', (ctx) => {
     graphDAO.getWhiskiesLikedByUser(ctx.from.id).then((records) => {
