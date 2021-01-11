@@ -146,12 +146,13 @@ We can recommand whiskies based on the likes and we can show which tastes the us
 
 Available command :
 
-/help : List all the commands below and describe this project.
-/top10HighestPercentage : List the whiskeys with the highest percentage of alcohol.
-/taste : Shows the user's taste grouped by nose, body, palate and finish.
-/liked : List all whiskeys liked by the current user.
-/recommendwhiskies : List whiskeys recommended depending on the user's likes
-/searchByPercentAlcohol <min> <max> : List the whiskies between <min> <max> percentage
+/help - List all the commands below and describe this project.
+/top10highestpercentage - List the whiskeys with the highest percentage of alcohol.
+/taste - Shows the user's taste grouped by nose, body, palate and finish.
+/liked - List all whiskeys liked by the current user.
+/top10liked - List the top 10 whiskey liked by ours users
+/recommendwhiskies - List whiskeys recommended depending on the user's likes
+/searchbypercentalcohol - List whiskeys with an alcohol percentage between the range ]min, max[
   `);
 });
 
