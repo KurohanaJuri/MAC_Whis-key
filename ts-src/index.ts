@@ -71,25 +71,38 @@ bot.command('searchByPercentAlcohol', async (ctx) => {
         let minPercent: number = +val[1]
         let maxPercent: number = +val[3]
 
-        const whiskies = await graphDAO.findByPercentAlchol(minPercent, maxPercent)
+        graphDAO.findByPercentAlchol(minPercent, maxPercent).then((whiskies) => {
+            let answer: string = ''
 
-        let answer: string = ''
+            if(whiskies.records.length > 0) {
+                whiskies.records.map(async (record) => {
+                    const found = record.get('n')
+                    const whiskiesByName = await documentDAO.getWhiskeyByName(found.properties.name)
+                    const whiskey = whiskiesByName[0]
 
-        whiskies.records.map((record) => {
-            const whiskey = record.get('n')
+                    const msg = stripMargin`
+                  |Name: ${whiskey.name}
+                  |Color: ${whiskey.color}
+                  |Nose: ${whiskey.noses}
+                  |Body: ${whiskey.bodies}
+                  |Palate: ${whiskey.palates}
+                  |Finish : ${whiskey.finishes}
+                  |Percent: ${whiskey.percent}
+                  |Region: ${whiskey.region}
+                  |District: ${whiskey.district}
+                `
 
-            answer += stripMargin`
-          |Name: ${whiskey.properties.name}
-          |Percent: ${Number(whiskey.properties.percent).toFixed(2)} %
-          |-----------------
-        `
-        });
+                    await ctx.reply(msg, {
+                        reply_markup: buildLikeKeyboard(whiskey._id)
+                    })
+                });
+            } else {
+                ctx.reply('No whiskies found')
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
 
-        if (answer.length === 0) {
-            ctx.reply('No whiskeys found')
-        } else {
-            ctx.reply(answer);
-        }
     }
 })
 

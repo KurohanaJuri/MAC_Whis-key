@@ -23,7 +23,7 @@ class GraphDAO {
         return await this.run(
             'MATCH (n:Whiskey) ' +
             'WHERE n.percent > toFloat($minPercent) AND n.percent < toFloat($maxPercent) ' +
-            'RETURN n LIMIT 25',
+            'RETURN n LIMIT 10',
             {
                 minPercent,
                 maxPercent

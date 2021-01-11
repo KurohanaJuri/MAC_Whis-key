@@ -9,7 +9,8 @@ This bot uses both Neo4j and MongoDB for data persistance. Both can be started u
 ## Available Commands
 
 * ```/help``` : List all the commands below and describe this project.
-* ```/Top10HighestPercentage``` : List the whiskeys with the highest percentage of alcohol.
+* ```/top10HighestPercentage``` : List the whiskeys with the highest percentage of alcohol.
 * ```/taste``` : Shows the user's taste grouped by nose, body, palate and finish.
 * ```/liked``` : List all whiskeys liked by the current user.
 * ```/recommendwhiskies``` : List whiskeys recommended depending on the user's likes
+* ```/searchByPercentAlcohol <min> <max>```: // TODO ECRIRE STEPH
