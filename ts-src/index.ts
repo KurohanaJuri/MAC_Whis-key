@@ -155,10 +155,10 @@ bot.on('callback_query', async (ctx) => {
 
 bot.command('help', (ctx) => {
     ctx.reply(`
-This project is devlopped in as part of MAC course at the HEIG-VD.
+This project is developed in as part of MAC course at the HEIG-VD.
 
 A user can display a whiskey with a inline query and give a note to this whiskey. 
-We can recommand whiskies based on the likes and we can show which tastes the user likes the most.
+We can recommend whiskies based on the likes and we can show which tastes the user likes the most.
 
 Available command :
 
