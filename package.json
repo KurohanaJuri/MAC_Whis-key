@@ -3,9 +3,7 @@
     "start": "node src/index.js",
     "import": "node src/loadData.js",
     "ts-start": "ts-node ts-src/index.ts",
-    "ts-import": "ts-node ts-src/loadData.ts",
-    "ts-start:old": "ts-node ts-src/Old/index.ts",
-    "ts-import:old": "ts-node ts-src/Old/loadData.ts"
+    "ts-import": "ts-node ts-src/loadData.ts"
   },
   "dependencies": {
     "cli-progress": "^3.8.2",
