@@ -136,3 +136,5 @@ RETURN n LIMIT 10
 
 In this request, we match any whiskies which have their alcohol percentage between a minPercent and maxPercent.
 
+## Ressource
+Dataset used : http://adn.biol.umontreal.ca/~numericalecology/data/scotch.html
