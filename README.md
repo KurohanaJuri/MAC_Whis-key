@@ -50,6 +50,8 @@ We can add the available command with `/setcommands`. Your can copy paste the te
 
 ### Data Model
 
+![Data model of Whiskey-Bot](img/data_model.png)
+
 #### Nodes
 
 - Whisky
