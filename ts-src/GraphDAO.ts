@@ -151,11 +151,11 @@ class GraphDAO {
         })
 
         let finishRes
-        let finish = this.run('  MATCH (:User{id : 470575552})-[l:LIKED]-(w:Whiskey)-[:HAS_AS_FINISH]-(f:Finish)\n' +
+        let finish = this.run('  MATCH (:User{id : $userId})-[l:LIKED]-(w:Whiskey)-[:HAS_AS_FINISH]-(f:Finish)\n' +
             '  with f, count(*) * l.rank as c\n' +
             '  with f, sum(c) as total\n' +
             '  with max(total) as maxValue\n' +
-            '  Match (:User{id : 470575552})-[l:LIKED]-(w:Whiskey)-[:HAS_AS_FINISH]-(f:Finish)\n' +
+            '  Match (:User{id : $userId})-[l:LIKED]-(w:Whiskey)-[:HAS_AS_FINISH]-(f:Finish)\n' +
             '  with f, count(*) * l.rank as c, maxValue\n' +
             '  with f, sum(c) as total, maxValue\n' +
             '  where total >= maxValue\n' +
