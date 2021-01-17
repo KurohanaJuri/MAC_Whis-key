@@ -103,9 +103,12 @@ limit 10
 
 In this request, we return all whiskies which have same characteristics with the whiskies that the user has already liked.
 
-### TODO CHAU
+### User taste
 
 The request can be found in the file 'GraphDao.ts' between the lines 107 to 173. 
+
+To identify the user preference, we assign a weight for each characteristic. We retrieve all characteristics liked by the user and compute his weight according to how many times he liked in his whiskies weighted with the rank.
+To find his preference, we take the max weighted for each characteristic
 
 ### Whiskies liked by the user
 
