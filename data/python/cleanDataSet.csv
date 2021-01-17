@@ -9,7 +9,7 @@ Balblair,white wine,"fresh, fruity","light","fruity, sweet, spicy","dry, fruity,
 Balmenach,pale gold,"aromatic, peaty, sweet, fruity, grassy","soft, medium, smooth, light","dry, sweet","long",40.0,HIGH,SPEY
 Balvenie,amber,"aromatic, fruity","medium","full, dry, sweet","oily, lingering",40.0,HIGH,SPEY
 Banff,full gold,"aromatic, peaty","medium","clean, smoky, sweet","clean, spicy",40.0,HIGH,SPEY
-Ben Nevis,full amber,"fruity, grassy","firm, oilyy","fruity, sweet","sweet",40.0,HIGH,WEST
+Ben Nevis,full amber,"fruity, grassy","firm, oily","fruity, sweet","sweet",40.0,HIGH,WEST
 Benriach,gold,"aromatic, grassy","medium, light","dry, sweet","dry, warm, smoky",40.0,HIGH,SPEY
 Benrinnes,amber,"aromatic, peaty","medium, round, smooth, firm","full, dry","dry, big, smoky",40.0,HIGH,SPEY
 Benromach,amber,"aromatic, peaty, dry, grassy","medium","full, light, smooth, fruity, grassy, smoky, sweet","fruity, smoky",40.0,HIGH,SPEY
@@ -19,28 +19,28 @@ Bowmore,old gold,"peaty, dry, grassy, sea","medium, light","sweet","salty, quick
 Brackla,old gold,"peaty, sweet","medium, full","smooth, fruity, sweet, arome","dry, grassy",40.0,HIGH,SPEY
 Bruichladdich,pale,"light","smooth, light, firm","dry, clean, smoky, sweet","full",40.0,ISLAY,LOCH
 Bunnahabhain,gold,"fresh, sea","medium, light, firm","clean, fruity, sweet","full",40.0,ISLAY,NORTH
-Caol Ila,white wine,"peaty, fruity, sea","light, firm, oilyy","smoky, spicy","warm, spicy",40.0,ISLAY,NORTH
+Caol Ila,white wine,"peaty, fruity, sea","light, firm, oily","smoky, spicy","warm, spicy",40.0,ISLAY,NORTH
 Caperdonich,full gold,"aromatic, peaty","medium, light","fruity, sweet","warm, smoky, lingering",40.0,HIGH,SPEY
 Cardhu,pale,"aromatic, peaty, light","smooth, light","light, sweet","dry, smoky, sweet, oily, lingering",40.0,HIGH,SPEY
-Clynelish,amber,"sea","full, oilyy","full, grassy, sweet, spicy, salty","spicy, lingering",40.0,HIGH,NORTH
-Coleburn,pale gold,"dry, fruity, grassy","light, oilyy","dry, fruity, smoky, sweet, arome","quick",40.0,HIGH,SPEY
+Clynelish,amber,"sea","full, oily","full, grassy, sweet, spicy, salty","spicy, lingering",40.0,HIGH,NORTH
+Coleburn,pale gold,"dry, fruity, grassy","light, oily","dry, fruity, smoky, sweet, arome","quick",40.0,HIGH,SPEY
 Convalmore,full gold,"sweet","medium, full","dry, smooth, sweet, oily","dry, smoky, spicy",40.0,HIGH,SPEY
 Cragganmore,gold,"aromatic, sweet, grassy, rich","medium, smooth, light, firm","clean, grassy","long",40.0,HIGH,SPEY
 Craigellachie,full gold,"aromatic, peaty, sweet, dry, fruity","medium","fruity, sweet","big",40.0,HIGH,SPEY
 Dailuaine,gold,"aromatic, sweet, dry, sherry","medium, full","fruity, sweet, oily","grassy",40.0,HIGH,SPEY
 Dallas Dhu,full amber,"peaty, sweet, grassy, rich","full","smoky, sweet","dry, smooth, grassy, long",40.0,HIGH,SPEY
 Dalmore,full amber,"sweet, fruity, sherry","soft, medium, full","full, dry, big, smooth, fruity, smoky, spicy, salty","fruity, long",40.0,HIGH,NORTH
-Dalwhinnie,gold,"aromatic, peaty, dry, sea","firm, oilyy","smooth, fruity, grassy, smoky, sweet, arome","very long",43.0,HIGH,SPEY
+Dalwhinnie,gold,"aromatic, peaty, dry, sea","firm, oily","smooth, fruity, grassy, smoky, sweet, arome","very long",43.0,HIGH,SPEY
 Deanston,pale,"sweet, fresh, dry","smooth, light","fruity, sweet","dry, light",40.0,HIGH,MIDLAND
-Dufftown,full gold,"aromatic, peaty, sweet, dry, rich","medium, round, light, firm, oilyy","dry, smoky, sweet, oily","oily, lingering",40.0,HIGH,SPEY
+Dufftown,full gold,"aromatic, peaty, sweet, dry, rich","medium, round, light, firm, oily","dry, smoky, sweet, oily","oily, lingering",40.0,HIGH,SPEY
 Edradour,gold,"peaty, sweet, fruity, sherry, spicy","light","clean, sweet, spicy, oily","warm",40.0,HIGH,MIDLAND
 Fettercairn,pale,"aromatic, sweet, light, fruity","smooth, light","dry, fruity, grassy","warm, light, lingering",40.0,HIGH,EAST
 Glen  Albyn,amber,"peaty, light, dry, sherry","medium, round, light","light, smoky, sweet","lingering",40.0,HIGH,SPEY
 Glenallachie,very long pale,"aromatic, sweet","light, firm","smooth, clean","grassy, sweet, long",40.0,HIGH,SPEY
-Glenburgie,gold,"dry, fruity, grassy","smooth, light, oilyy","sherry, sweet, spicy","warm, long",40.0,HIGH,SPEY
+Glenburgie,gold,"dry, fruity, grassy","smooth, light, oily","sherry, sweet, spicy","warm, long",40.0,HIGH,SPEY
 Glencadam,full gold,"peaty, fruity","full","sweet, salty","warm",40.0,HIGH,EAST
 Glen Deveron,gold,"aromatic, sweet, fresh, sherry","medium, smooth, light","full, clean, sweet","dry, warm, sweet, quick",40.0,HIGH,SPEY
-Glendronach,gold,"sweet, dry, sherry","medium, full, smooth, oilyy","dry, sweet","clean, fruity, grassy",43.0,HIGH,SPEY
+Glendronach,gold,"sweet, dry, sherry","medium, full, smooth, oily","dry, sweet","clean, fruity, grassy",43.0,HIGH,SPEY
 Glendullan,amber,"aromatic, sweet, fruity, sherry","medium, full, smooth, firm","dry, big, fruity, sweet, arome","warm, long",43.0,HIGH,SPEY
 Glen Elgin,full gold,"peaty, fruity","soft, medium, light","clean, fruity, sweet","light, clean, smoky",43.0,HIGH,SPEY
 Glenesk,gold,"aromatic, sweet, dry","soft, medium, smooth, light","dry, smooth, sweet","dry, clean, sweet",40.0,HIGH,EAST
@@ -51,12 +51,12 @@ Glenglassaugh,gold,"fresh, grassy","smooth, light, firm","grassy, sweet","dry",4
 Glengoyne,full gold,"peaty, fresh, fruity, sherry","medium, round, smooth, light","clean, sweet","dry, clean, sweet",40.0,HIGH,WEST
 Glen Grant,full gold,"sweet, dry","medium, light","dry, light, fruity, sweet","dry, grassy",43.0,HIGH,SPEY
 Glen Keith,bronze,"peaty, light, dry, grassy","medium, full","dry, sherry, smoky, sweet","dry, warm, long",40.0,HIGH,SPEY
-Glenkinchie,gold,"aromatic, peaty, sweet, grassy","medium, light, oilyy","full, smooth, clean, grassy, sweet","dry, warm, spicy",43.0,LOW,EAST
+Glenkinchie,gold,"aromatic, peaty, sweet, grassy","medium, light, oily","full, smooth, clean, grassy, sweet","dry, warm, spicy",43.0,LOW,EAST
 Glenlivet,pale gold,"grassy, sherry","medium, smooth, light, firm","dry, fruity, sweet, spicy, arome","warm, long",40.0,HIGH,SPEY
-Glenlochy,full gold,"peaty, light, dry","medium, light, firm, oilyy","dry, light, smoky, oily","big, smoky, quick",40.0,HIGH,WEST
+Glenlochy,full gold,"peaty, light, dry","medium, light, firm, oily","dry, light, smoky, oily","big, smoky, quick",40.0,HIGH,WEST
 Glenlossie,full gold,"sweet, fresh, dry, fruity, sherry","medium, round, smooth, light","dry, clean, fruity, sweet","warm, arome, long",40.0,HIGH,SPEY
 Glen Mhor,gold,"aromatic, sweet","soft, light","dry, fruity, smoky, sweet","light, arome",40.0,HIGH,SPEY
-Glenmorangie,pale gold,"sweet, fresh, grassy, sea, spicy","medium, light, oilyy","grassy, sweet, spicy","full, long",40.0,HIGH,NORTH
+Glenmorangie,pale gold,"sweet, fresh, grassy, sea, spicy","medium, light, oily","grassy, sweet, spicy","full, long",40.0,HIGH,NORTH
 Glen Moray,pale gold,"fresh, grassy, rich","smooth, light, firm","grassy","dry, grassy",40.0,HIGH,SPEY
 Glen Ordie,full gold,"peaty, sweet, dry, rich","medium, full, smooth","full, dry, clean, sweet","dry, smooth, spicy",40.0,HIGH,NORTH
 Glenrothes,full gold,"aromatic, fruity, rich","medium, full, smooth","full, dry, smooth, fruity, sweet","dry, smooth",40.0,HIGH,SPEY
@@ -64,20 +64,20 @@ Glen Scotia,full gold,"aromatic, fresh, sea","medium, round, smooth, light","sal
 Glen Spey,gold,"aromatic, light","medium, light","fruity, grassy, smoky, arome","dry, light",40.0,HIGH,SPEY
 Glentauchers,white wine,"sweet, light, dry, fruity, sea, spicy","smooth, light","dry, big, light, sweet","dry, warm, long",46.0,HIGH,SPEY
 Glenturret,white wine,"aromatic, sweet","soft, firm","big, smoky","fruity, long",57.1,HIGH,MIDLAND
-Glenugie,full gold,"peaty, fruity, sea, sherry","soft, medium, smooth, oilyy","sherry, big, sweet, spicy","dry",54.8,HIGH,EAST
+Glenugie,full gold,"peaty, fruity, sea, sherry","soft, medium, smooth, oily","sherry, big, sweet, spicy","dry",54.8,HIGH,EAST
 Glenury Royal,bronze,"aromatic, peaty, dry","medium, light, firm","dry, smoky, sweet","fruity, smoky, sweet, very long",40.0,HIGH,EAST
 Highland Park,amber,"peaty, sweet, fruity, sherry","medium, smooth","dry, smoky, sweet","fruity",40.0,HIGH,ORKNEY
 Imperial,full gold,"aromatic, peaty, sherry","soft, medium, full","full, smoky, sweet, spicy","smooth, smoky",40.0,HIGH,SPEY
 Inchgower,gold,"aromatic, peaty, sweet, dry, sea, rich","medium, smooth","sweet, salty","salty, long",40.0,HIGH,SPEY
-Inchmurrin,full gold,"aromatic, dry, grassy","round, light, oilyy","dry, sweet, spicy","light, spicy",40.0,HIGH,WEST
+Inchmurrin,full gold,"aromatic, dry, grassy","round, light, oily","dry, sweet, spicy","light, spicy",40.0,HIGH,WEST
 Inverleven,gold,"aromatic, peaty, dry, fruity, grassy","full, round, light","spicy","big, fruity",46.0,LOW,WEST
 Jura,gold,"peaty, sweet, light, dry, sherry","soft, light","dry, sweet, salty","sweet, salty",40.0,HIGH,JURA
 Kinclaith,bronze,"peaty, sea","soft, light","light, fruity, spicy","smooth, fruity",40.0,LOW,WEST
 Knockando,pale gold,"aromatic, peaty, dry","smooth, light","smooth, fruity, grassy, sweet, spicy, salty","light, smooth, clean, grassy, smoky, sweet",43.0,HIGH,SPEY
-Knockdhu,gold,"peaty, sweet, dry, fruity","soft, medium, oilyy","fruity, sweet","dry, smoky, arome, long",40.0,HIGH,SPEY
+Knockdhu,gold,"peaty, sweet, dry, fruity","soft, medium, oily","fruity, sweet","dry, smoky, arome, long",40.0,HIGH,SPEY
 Ladyburn,white wine,"light, dry, fruity","soft, light","dry, light, sweet, arome","dry, big",46.0,LOW,WEST
-Lagavulin,pale amber,"peaty, dry, sea, sherry","full, round, oilyy","dry, smoky, salty","dry, big, smoky, salty",43.0,ISLAY,SOUTH
-Laphroaig,full gold,"sea, sherry","medium, oilyy","oily, salty","full, dry",43.0,ISLAY,SOUTH
+Lagavulin,pale amber,"peaty, dry, sea, sherry","full, round, oily","dry, smoky, salty","dry, big, smoky, salty",43.0,ISLAY,SOUTH
+Laphroaig,full gold,"sea, sherry","medium, oily","oily, salty","full, dry",43.0,ISLAY,SOUTH
 Linkwood,full gold,"sweet, light, sherry, rich","medium, round","dry, light, smoky, sweet","dry, smooth",40.0,HIGH,SPEY
 Littlemill,white wine,"peaty, sweet","soft, medium, light","sweet","dry, smooth, fruity",43.0,LOW,NORTHWEST
 Lochnagar,full gold,"peaty","medium, full, smooth","light, fruity, smoky, sweet","dry, smoky, sweet",43.0,HIGH,EAST
@@ -97,9 +97,9 @@ Scapa,amber,"fresh, fruity, grassy, sea","medium","salty","dry, oily",40.0,HIGH,
 Singleton,full amber,"sherry","medium, smooth","sherry, fruity, spicy","smoky",40.0,HIGH,SPEY
 Speyburn,bronze,"dry, fruity, sherry","smooth","dry, fruity, sweet","smooth, sweet, quick",40.0,HIGH,SPEY
 Springbank,gold,"sweet, fresh, sea, rich","medium, round, smooth, light","light, sweet, salty","warm, smoky, sweet, salty, very long",46.0,LOW,CAMPBEL
-Springbank-Longrow,gold,"peaty, grassy, sea","medium, oilyy","dry, smoky","big, salty, lingering",46.0,LOW,CAMPBEL
+Springbank-Longrow,gold,"peaty, grassy, sea","medium, oily","dry, smoky","big, salty, lingering",46.0,LOW,CAMPBEL
 Strathisla,amber,"dry, sherry, rich","medium, firm","dry, sherry, grassy, sweet","dry, big, lingering",40.0,HIGH,SPEY
-Talisker,red,"peaty, sweet, sea, rich","full, oilyy","big, smoky, sweet, spicy","big, spicy, long",45.8,HIGH,SKYE
+Talisker,red,"peaty, sweet, sea, rich","full, oily","big, smoky, sweet, spicy","big, spicy, long",45.8,HIGH,SKYE
 Tamdhu,pale amber,"peaty, sweet, light, sherry","medium, round, light","sweet, arome","full",40.0,HIGH,SPEY
 Tamnavulin,white wine,"peaty, grassy","smooth, light","fruity, grassy","arome",43.0,HIGH,SPEY
 Teaninich,pale amber,"aromatic, peaty, dry","soft, medium","full, dry, smoky, sweet, spicy","dry, smoky",40.0,HIGH,NORTH

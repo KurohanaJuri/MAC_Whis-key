@@ -1,5 +1,6 @@
 import pandas as pd
-import csv
+import csv 
+import re
 
 df = pd.read_csv("scotch.csv", sep=";")
 
@@ -141,7 +142,9 @@ dictItems = { "wyne":"white wine", "v.pale":"very pale","p.gold":"pale gold","o.
 "smoke":"smoky", "spice":"spicy", "oil":"oily", "ling":"lingering", "very":"very long"}
 
 for old, new in dictItems.items() :
-    output = output.replace(old, new)
+    print("replace " + old + " by " + new) 
+    regex = r'\b'+ old + r'\b'
+    output = re.sub(regex, new, output)
 
 file = open("cleanDataSet.csv", "w")
 file.write(output)
