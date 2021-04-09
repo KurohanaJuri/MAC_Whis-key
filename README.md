@@ -2,6 +2,13 @@
 
 In this project, we will create a telegram bot in order to handle multiple user interaction with a wiskey database.
 
+<p align="center">
+  <img src="demo.gif"
+     style="object-fit:contain;
+            width:200px;"
+   />
+</p>
+
 ## Description
 
 With Whiskey-Bot, you can display the top 10 of the whiskies by alcohol percentage or by the number of likes. You can vote between 1 star and 5 stars a whisky, with this functionnality, Whiskey-Bot can recommend you and give your taste preferences. You can ask to Whiskey-Bot the details about a whisky in particular with the inline query. Likewise, you can ask to Whiskey-Bot to search in function of a range of alcohol percentage.
@@ -9,7 +16,7 @@ With Whiskey-Bot, you can display the top 10 of the whiskies by alcohol percenta
 ### How to use
 
 * You need Telegram
-* Search the bot typing '@Whis_key_bot'
+* Search the bot typing `@Whis_key_bot`
 * Start a conversation
 * Enter your command and enjoy :D
 
@@ -50,7 +57,9 @@ We can add the available command with `/setcommands`. Your can copy paste the te
 
 ### Data Model
 
-![Data model of Whiskey-Bot](img/data_model.png)
+<p align="center">
+  <img src="img/data_model.png">
+</p>
 
 #### Nodes
 
